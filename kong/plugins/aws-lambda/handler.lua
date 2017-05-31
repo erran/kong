@@ -83,7 +83,11 @@ function AWSLambdaHandler:access(conf)
     return responses.send_HTTP_INTERNAL_SERVER_ERROR(err)
   end
 
-  ngx.status = res.status
+  if headers['X-Amzn-Function-Error'] == 'Unhandled' and conf.unhandled_response ~= -1 then
+    ngx.status = conf.unhandled_response
+  else
+    ngx.status = res.status
+  end
 
   -- Send response to client
   for k, v in pairs(headers) do

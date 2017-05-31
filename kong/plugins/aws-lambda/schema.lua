@@ -14,5 +14,6 @@ return {
     log_type = {type = "string", required = true, default = "Tail", 
                        enum = {"Tail", "None"}},
     port = { type = "number", default = 443 },
+    unhandled_response = {type = "number", default = -1, required = true},
   }
 }
