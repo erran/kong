@@ -15,7 +15,7 @@ function _M.get_credentials(role)
   end
 
   local client = http.new()
-  client:connect("http://169.254.169.254", 80)
+  client:connect("169.254.169.254", 80)
   client:set_timeout(5000)
   local res, err = client:request {
     method = "GET",
