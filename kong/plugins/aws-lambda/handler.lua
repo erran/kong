@@ -2,6 +2,7 @@
 
 local BasePlugin = require "kong.plugins.base_plugin"
 local aws_v4 = require "kong.plugins.aws-lambda.v4"
+local aws_metadata = require "kong.plugins.aws-lambda.metadata"
 local responses = require "kong.tools.responses"
 local utils = require "kong.tools.utils"
 local http = require "resty.http"
@@ -50,6 +51,12 @@ function AWSLambdaHandler:access(conf)
     secret_key = conf.aws_secret,
     query = conf.qualifier and "Qualifier=" .. conf.qualifier
   }
+
+  if conf.aws_iam_role then
+    local credentials = aws_metadata.credentials(conf.aws_iam_role)
+    opts.access_key = credentials.access_key
+    opts.secret_key = credentials.secret_key
+  end
 
   local request, err = aws_v4(opts)
   if err then

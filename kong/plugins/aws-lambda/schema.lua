@@ -23,5 +23,6 @@ return {
                        enum = {"Tail", "None"}},
     port = { type = "number", default = 443 },
     unhandled_status = { type = "number", func = check_status },
+    aws_iam_role = { type = "string" },
   }
 }
