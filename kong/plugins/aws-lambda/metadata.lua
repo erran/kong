@@ -44,7 +44,7 @@ function _M.convert_datestr(datestr)
 end
 
 function _M.ttl_for_expiration(expiration)
-  local ttl = os.difftime(os.time(), convert_datestr(json["Expiration"]))
+  local ttl = os.difftime(ngx.time(), convert_datestr(json["Expiration"]))
   -- Amazon recommends expiring the cached credential 15 minutes *before* the expiration time.
   if ttl > 900 then
     ttl = ttl - 900
