@@ -53,9 +53,14 @@ function AWSLambdaHandler:access(conf)
   }
 
   if conf.aws_iam_role then
-    local credentials = aws_metadata.credentials(conf.aws_iam_role)
-    opts.access_key = credentials.access_key
-    opts.secret_key = credentials.secret_key
+    local credentials, err = aws_metadata.credentials(conf.aws_iam_role)
+    if err then
+      opts.access_key = credentials.access_key
+      opts.secret_key = credentials.secret_key
+
+    else
+      ngx.log(ngx.ERR, "failed to load instance credentials from metadata service - defaulting to config.aws_key and config.aws_secret: ", err)
+    end
   end
 
   local request, err = aws_v4(opts)
