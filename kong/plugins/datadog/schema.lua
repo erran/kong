@@ -98,6 +98,7 @@ return {
         default = { metrics = DEFAULT_METRICS },
         fields = {
           { host = typedefs.host({ required = true, default = "localhost" }), },
+          { host_override = { type = "string", default = "" }, },
           { port = typedefs.port({ required = true, default = 8125 }), },
           { prefix = { type = "string", default = "kong" }, },
           { metrics = {
